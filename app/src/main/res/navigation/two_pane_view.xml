@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_details"
+    app:startDestination="@id/postDetailFragmentPane">
+    <fragment
+        android:id="@+id/postDetailFragmentPane"
+        android:name="com.example.primarydetailkotlin.posts.ui.PostDetailFragment"
+        android:label="@string/title_post_detail"
+        tools:layout="@layout/post_detail_fragment">
+        <argument
+            android:name="post_id"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
+
+</navigation>

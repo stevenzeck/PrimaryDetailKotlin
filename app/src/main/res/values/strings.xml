@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Primary Detail Kotlin</string>
+    <string name="title_post_list">Posts</string>
+    <string name="title_post_detail">Post Detail</string>
+    <string name="delete">Delete</string>
+    <string name="markRead">Mark Read</string>
+
+    <string name="theme_title">Theme</string>
+    <string name="choose_theme">Choose theme</string>
+    <string name="title_settings">Settings</string>
+</resources>
