@@ -42,6 +42,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        resValues = true
     }
 
     namespace = "com.example.primarydetailkotlin"
