@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.application")
-    kotlin("plugin.parcelize")
-    kotlin("plugin.serialization")
-    id("dagger.hilt.android.plugin")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.agp)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -46,6 +46,16 @@ android {
     }
 
     namespace = "com.example.primarydetailkotlin"
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+}
+
+tasks.withType<Test> {
+    jvmArgs("-noverify")
 }
 
 kotlin {
@@ -59,46 +69,30 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.kotlin.stdlib)
 
-    // AndroidX Core
-    implementation(libs.preference)
-    implementation(libs.appcompat)
-    implementation(libs.androidx.core)
-    implementation(libs.constraintlayout)
-    implementation(libs.recyclerview)
-    implementation(libs.recyclerview.selection)
-    implementation(libs.swiperefreshlayout)
+    // UI & Core Libraries
+    implementation(libs.bundles.ui)
+    implementation(libs.bundles.navigation)
 
-    // Fragments/Navigation
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
-
-    // ViewModel
+    // Lifecycle
     implementation(libs.lifecycle.viewmodel)
-    @Suppress("LifecycleAnnotationProcessorWithJava8")
     ksp(libs.lifecycle.compiler)
 
-    // Room Database
+    // Database & Network
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
-
-    // Material
-    implementation(libs.material)
-
-    // Kotlin Coroutines
-    runtimeOnly(libs.coroutines.android)
-
-    // Retrofit
     implementation(libs.bundles.retrofit)
-
-    // Kotlin Serialziation
     implementation(libs.kotlin.serialization.json)
 
-    // Hilt
+    // Logic & DI
+    runtimeOnly(libs.coroutines.android)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // Test
-    testImplementation(libs.junit)
+    // Unit Tests
+    testImplementation(libs.bundles.unit.test)
+    kspTest(libs.hilt.compiler)
+
+    // Android Instrumentation Tests
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.expresso.core)
 }

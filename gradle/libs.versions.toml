@@ -1,61 +1,120 @@
 [versions]
+# Build Tools & Plugins
 agp = "9.0.0"
+kotlin = "2.3.0"
+ksp = "2.3.4"
+
+# AndroidX & UI
 androidx-core = "1.17.0"
 appcompat = "1.7.1"
 constraintlayout = "2.2.1"
-coroutines = "1.10.2"
-expresso-core = "3.7.0"
-ext-junit = "1.3.0"
-hilt = "2.59"
-junit = "4.13.2"
-kotlin = "2.3.0"
-kotlin-serialization = "1.10.0"
-ksp = "2.3.4"
-lifecycle = "2.10.0"
-logging-interceptor = "5.3.2"
 material = "1.13.0"
 navigation = "2.9.6"
 preference = "1.2.1"
 recyclerview = "1.4.0"
 recyclerview-selection = "1.2.0"
-retrofit = "3.0.0"
-room = "2.8.4"
 swiperefreshlayout = "1.2.0"
+lifecycle = "2.10.0"
+
+# Data & Networking
+retrofit = "3.0.0"
+logging-interceptor = "5.3.2"
+kotlin-serialization = "1.10.0"
+room = "2.8.4"
+coroutines = "1.10.2"
+
+# Dependency Injection
+hilt = "2.59"
+
+# Testing
+junit = "4.13.2"
+ext-junit = "1.3.0"
+expresso-core = "3.7.0"
+mockk = "1.14.7"
+robolectric = "4.16.1"
+arch-core = "2.2.0"
+androidx-test-core = "1.7.0"
 
 [libraries]
+# Kotlin
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
+
+# AndroidX Core & UI
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
-expresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "expresso-core" }
-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "ext-junit" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
-kotlin-serialization-converter = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
-kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
-lifecycle-compiler = { group = "androidx.lifecycle", name = "lifecycle-compiler", version.ref = "lifecycle" }
-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
-preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 recyclerview-selection = { group = "androidx.recyclerview", name = "recyclerview-selection", version.ref = "recyclerview-selection" }
+swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+
+# Lifecycle
+lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-compiler = { group = "androidx.lifecycle", name = "lifecycle-compiler", version.ref = "lifecycle" }
+
+# Navigation
+navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+
+# Networking
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
+kotlin-serialization-converter = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+
+# Database (Room)
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name="swiperefreshlayout", version.ref ="swiperefreshlayout" }
+
+# Coroutines
+coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
+# Hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+
+# Testing
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "ext-junit" }
+expresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "expresso-core" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidx-test-core" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 
 [bundles]
-retrofit = ["kotlin-serialization-converter", "logging-interceptor", "retrofit"]
+ui = [
+    "androidx-core",
+    "appcompat",
+    "constraintlayout",
+    "material",
+    "preference",
+    "recyclerview",
+    "recyclerview-selection",
+    "swiperefreshlayout"
+]
+navigation = ["navigation-fragment", "navigation-ui"]
+retrofit = ["retrofit", "logging-interceptor", "kotlin-serialization-converter"]
 room = ["room-runtime", "room-ktx"]
+unit-test = [
+    "junit",
+    "mockk",
+    "robolectric",
+    "coroutines-test",
+    "arch-core-testing",
+    "androidx-test-core",
+    "ext-junit",
+    "hilt-android-testing"
+]
 
 [plugins]
 agp = { id = "com.android.application", version.ref = "agp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
