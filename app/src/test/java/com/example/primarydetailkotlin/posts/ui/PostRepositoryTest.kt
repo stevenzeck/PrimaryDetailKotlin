@@ -15,7 +15,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
+import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class PostRepositoryTest {
@@ -55,6 +55,18 @@ class PostRepositoryTest {
         coVerify { postsDao.getPostsCount() }
         coVerify(exactly = 0) { apiService.getAllPosts() }
         coVerify(exactly = 0) { postsDao.insertPosts(posts = any()) }
+    }
+
+    @Test(expected = IOException::class)
+    fun getServerPosts_throws_whenApiFails() = runTest {
+        // Given
+        coEvery { postsDao.getPostsCount() } returns 0
+        coEvery { apiService.getAllPosts() } throws IOException("Network Error")
+
+        // When
+        repository.getServerPosts()
+
+        // Then exception is thrown
     }
 
     @Test

@@ -15,7 +15,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.primarydetailkotlin.R
-import com.example.primarydetailkotlin.di.AppModule
 import com.example.primarydetailkotlin.posts.domain.model.Post
 import com.example.primarydetailkotlin.posts.ui.PostListFragment
 import com.example.primarydetailkotlin.posts.ui.PostRepository
@@ -23,7 +22,6 @@ import com.example.primarydetailkotlin.util.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
@@ -35,7 +33,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.shadows.ShadowLooper
 
-@UninstallModules(AppModule::class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class PostListFragmentTest {
@@ -50,6 +47,16 @@ class PostListFragmentTest {
     @Before
     fun init() {
         hiltRule.inject()
+    }
+
+    @Test
+    fun onViewCreated_callsServerPosts() {
+        every { repository.getPostsFromDatabase() } returns flowOf(emptyList())
+        
+        launchFragmentInHiltContainer<PostListFragment>()
+        ShadowLooper.runUiThreadTasks()
+
+        coVerify { repository.getServerPosts() }
     }
 
     @Test

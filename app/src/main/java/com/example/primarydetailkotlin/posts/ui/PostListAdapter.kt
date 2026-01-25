@@ -151,7 +151,7 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
  * Used by [ListAdapter] to calculate the minimum number of changes between an old list and a new
  * list that's been passed to `submitList`.
  */
-private class PostListDiff : DiffUtil.ItemCallback<Post>() {
+internal class PostListDiff : DiffUtil.ItemCallback<Post>() {
 
     /**
      * Checks if two items represent the same object.
