@@ -33,13 +33,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLooper
 
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-@Config(sdk = [34])
 class PostListFragmentTest {
 
     @get:Rule
@@ -83,10 +81,10 @@ class PostListFragmentTest {
         ShadowLooper.runUiThreadTasks()
 
         onView(withId(R.id.post_list)).perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0, click()
-                )
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0, click()
             )
+        )
 
         assertEquals(R.id.postDetailFragment, navController.currentDestination?.id)
 
@@ -112,7 +110,18 @@ class PostListFragmentTest {
     }
 
     @Test
-    fun selectionMode_activateAndPerformAction() {
+    fun selectionMode_deleteAction() {
+        performSelectionAction(R.id.delete)
+        coVerify { repository.deletePosts(listOf(1L)) }
+    }
+
+    @Test
+    fun selectionMode_markReadAction() {
+        performSelectionAction(R.id.markRead)
+        coVerify { repository.markRead(listOf(1L)) }
+    }
+
+    private fun performSelectionAction(actionId: Int) {
         val post = Post(id = 1, userId = 1, title = "Test Post", body = "Body")
         every { repository.getPostsFromDatabase() } returns flowOf(listOf(post))
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
@@ -126,7 +135,7 @@ class PostListFragmentTest {
         }
         ShadowLooper.runUiThreadTasks()
 
-        // Use reflection to select item since Robolectric touch events for selection can be flaky
+        // Use reflection to select item
         val trackerField = PostListFragment::class.java.getDeclaredField("mSelectionTracker")
         trackerField.isAccessible = true
         @Suppress("UNCHECKED_CAST") val tracker =
@@ -135,9 +144,6 @@ class PostListFragmentTest {
 
         ShadowLooper.runUiThreadTasks()
 
-        // Check if CAB action delete is visible
-        onView(withId(R.id.delete)).perform(click())
-
-        coVerify { repository.deletePosts(listOf(1L)) }
+        onView(withId(actionId)).perform(click())
     }
 }

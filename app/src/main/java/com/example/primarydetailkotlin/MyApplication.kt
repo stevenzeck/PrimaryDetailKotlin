@@ -24,7 +24,7 @@ class MyApplication : Application() {
 
         // Retrieve the saved theme preference (defaulting to System default) and apply it.
         val themePref = sharedPreferences.getString("themePref", ThemeHelper.DEFAULT_MODE)
-        themePref?.let { ThemeHelper.applyTheme(it) }
+        themePref?.let { ThemeHelper.applyTheme(themePref = it) }
 
         // Apply Material 3 Dynamic Colors to all activities in the application if supported by the device.
         DynamicColors.applyToActivitiesIfAvailable(this)

@@ -77,7 +77,7 @@ class PostListFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.settings -> {
-                        findNavController().navigate(R.id.action_postListFragment_to_settingsFragment)
+                        findNavController().navigate(resId = R.id.action_postListFragment_to_settingsFragment)
                     }
 
                     else -> return false
@@ -87,7 +87,7 @@ class PostListFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         // Initialize the RecyclerView adapter with the read-marking callback.
-        mAdapter = PostListAdapter(markRead = { long -> markRead(long) })
+        mAdapter = PostListAdapter(markRead = { long -> markRead(postId = long) })
 
         // Configure the RecyclerView with LayoutManager and Divider.
         binding.postList.apply {
@@ -107,8 +107,8 @@ class PostListFragment : Fragment() {
         mSelectionTracker = SelectionTracker.Builder(
             "selection",
             binding.postList,
-            RecyclerViewIdKeyProvider(binding.postList),
-            PostLookup(binding.postList),
+            RecyclerViewIdKeyProvider(recyclerView = binding.postList),
+            PostLookup(recyclerView = binding.postList),
             StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
             SelectionPredicates.createSelectAnything()
@@ -160,7 +160,7 @@ class PostListFragment : Fragment() {
      * @param postIds A list of IDs of posts to mark as read.
      */
     fun markRead(postIds: List<Long>) {
-        viewModel.markRead(postIds)
+        viewModel.markRead(postIds = postIds)
     }
 
     /**
@@ -169,7 +169,7 @@ class PostListFragment : Fragment() {
      * @param postId The ID of the post to mark as read.
      */
     private fun markRead(postId: Long) {
-        viewModel.markRead(postId)
+        viewModel.markRead(postId = postId)
     }
 
     /**
@@ -178,7 +178,7 @@ class PostListFragment : Fragment() {
      * @param postIds A list of IDs of posts to delete.
      */
     fun deletePosts(postIds: List<Long>) {
-        viewModel.deletePosts(postIds)
+        viewModel.deletePosts(postIds = postIds)
     }
 
     /**
@@ -209,11 +209,11 @@ class PostListFragment : Fragment() {
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
             when (item?.itemId) {
                 R.id.delete -> {
-                    deletePosts(getSelection())
+                    deletePosts(postIds = getSelection())
                 }
 
                 R.id.markRead -> {
-                    markRead(getSelection())
+                    markRead(postIds = getSelection())
                 }
             }
             // Finish the mode after the action is performed.

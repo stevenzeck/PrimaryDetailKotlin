@@ -1,8 +1,7 @@
-package com.example.primarydetailkotlin.posts.ui.settings
+package com.example.primarydetailkotlin.settings
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.primarydetailkotlin.settings.ThemeHelper
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

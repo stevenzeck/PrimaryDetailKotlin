@@ -1,9 +1,7 @@
-package com.example.primarydetailkotlin.posts.ui.settings
+package com.example.primarydetailkotlin.settings
 
 import androidx.preference.ListPreference
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.primarydetailkotlin.settings.SettingsFragment
-import com.example.primarydetailkotlin.settings.ThemeHelper
 import com.example.primarydetailkotlin.util.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -19,7 +17,6 @@ import org.robolectric.annotation.Config
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-@Config(sdk = [34])
 class SettingsFragmentTest {
 
     @get:Rule

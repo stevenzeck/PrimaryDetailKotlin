@@ -65,7 +65,7 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
 
         // Pass the selection state from the tracker to the ViewHolder to update the UI (e.g., background color).
         val isSelected = mTracker?.isSelected(item.id) ?: false
-        holder.bind(item, isSelected)
+        holder.bind(post = item, isActivated = isSelected)
 
         // Set the tag to the item itself, which can be useful for debugging or retrieval.
         with(holder.itemView) {
@@ -118,11 +118,14 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
                 if (itemDetailFragmentContainer != null) {
                     // Tablet: Update the detail pane
                     itemDetailFragmentContainer.findNavController()
-                        .navigate(R.id.postDetailFragmentPane, bundle)
+                        .navigate(resId = R.id.postDetailFragmentPane, args = bundle)
                 } else {
                     // Phone: Navigate to the detail screen
                     itemView.findNavController()
-                        .navigate(R.id.action_postListFragment_to_postDetailFragment, bundle)
+                        .navigate(
+                            resId = R.id.action_postListFragment_to_postDetailFragment,
+                            args = bundle
+                        )
                 }
             }
         }

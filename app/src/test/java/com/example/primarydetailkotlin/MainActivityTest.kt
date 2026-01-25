@@ -1,6 +1,7 @@
 package com.example.primarydetailkotlin
 
 import android.view.View
+import androidx.navigation.NavController
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.primarydetailkotlin.di.DatabaseModule
@@ -18,8 +19,10 @@ import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -59,6 +62,27 @@ class MainActivityTest {
                 // Verify Toolbar is present
                 val toolbar = activity.findViewById<View>(R.id.toolbar)
                 assertNotNull(toolbar)
+            }
+        }
+    }
+
+    @Test
+    fun onSupportNavigateUp_callsNavControllerNavigateUp() {
+        every { postsDao.getAllPosts() } returns flowOf(value = emptyList())
+        every { postsDao.getPostsCount() } returns 0
+
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val field = MainActivity::class.java.getDeclaredField("mNavController")
+                field.isAccessible = true
+                val mockNavController = mockk<NavController>(relaxed = true)
+                every { mockNavController.navigateUp() } returns true
+                field.set(activity, mockNavController)
+
+                val result = activity.onSupportNavigateUp()
+
+                assertTrue(result)
+                verify { mockNavController.navigateUp() }
             }
         }
     }

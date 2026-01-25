@@ -2,11 +2,12 @@ package com.example.primarydetailkotlin.posts.ui
 
 import com.example.primarydetailkotlin.posts.domain.model.Post
 import com.example.primarydetailkotlin.util.MainDispatcherRule
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -88,5 +89,21 @@ class PostViewModelTest {
         viewModel.deletePost(postId = id)
 
         coVerify { repository.deletePost(postId = id) }
+    }
+
+    @Test
+    fun postById_returnsPostFromRepository() = runTest {
+        // Given
+        val post = Post(id = 1, userId = 1, title = "T", body = "B")
+        coEvery { repository.postById(postId = 1L) } returns post
+        every { repository.getPostsFromDatabase() } returns flowOf(value = emptyList())
+        val viewModel = PostViewModel(repository)
+
+        // When
+        val result = viewModel.postById(postId = 1L)
+
+        // Then
+        assertEquals(post, result)
+        coVerify { repository.postById(postId = 1L) }
     }
 }

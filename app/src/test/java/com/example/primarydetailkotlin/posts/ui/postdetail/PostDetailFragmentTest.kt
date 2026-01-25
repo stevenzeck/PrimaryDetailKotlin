@@ -28,13 +28,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLooper
 
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-@Config(sdk = [34])
 class PostDetailFragmentTest {
 
     @get:Rule
@@ -52,7 +50,7 @@ class PostDetailFragmentTest {
     @Test
     fun displayPost_showsDetails() {
         val post = Post(id = 1, userId = 1, title = "Detail Title", body = "Detail Body")
-        coEvery { repository.postById(1L) } returns post
+        coEvery { repository.postById(postId = 1L) } returns post
 
         val args = bundleOf(PostListAdapter.POST_ID to 1L)
         launchFragmentInHiltContainer<PostDetailFragment>(fragmentArgs = args)
@@ -66,9 +64,18 @@ class PostDetailFragmentTest {
     }
 
     @Test
+    fun displayPost_emptyArgs_doesNothing() {
+        launchFragmentInHiltContainer<PostDetailFragment>(fragmentArgs = bundleOf())
+        ShadowLooper.runUiThreadTasks()
+        // No crash and default text remains (empty)
+        Espresso.onView(ViewMatchers.withId(R.id.titleTextView))
+            .check(ViewAssertions.matches(ViewMatchers.withText("")))
+    }
+
+    @Test
     fun deletePost_callsRepositoryAndNavigatesUp() {
         val post = Post(id = 1, userId = 1, title = "Detail Title", body = "Detail Body")
-        coEvery { repository.postById(1L) } returns post
+        coEvery { repository.postById(postId = 1L) } returns post
 
         val args = bundleOf(PostListAdapter.POST_ID to 1L)
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
@@ -93,6 +100,6 @@ class PostDetailFragmentTest {
             Espresso.onView(ViewMatchers.withText(R.string.delete)).perform(ViewActions.click())
         }
 
-        coVerify { repository.deletePost(1L) }
+        coVerify { repository.deletePost(postId = 1L) }
     }
 }
