@@ -64,9 +64,8 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
         val item = getItem(position)
 
         // Pass the selection state from the tracker to the ViewHolder to update the UI (e.g., background color).
-        mTracker?.let {
-            holder.bind(item, it.isSelected(item.id))
-        }
+        val isSelected = mTracker?.isSelected(item.id) ?: false
+        holder.bind(item, isSelected)
 
         // Set the tag to the item itself, which can be useful for debugging or retrieval.
         with(holder.itemView) {

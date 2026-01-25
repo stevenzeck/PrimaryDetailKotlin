@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -23,7 +24,6 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.primarydetailkotlin.MainActivity
 import com.example.primarydetailkotlin.R
 import com.example.primarydetailkotlin.databinding.PostListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,7 +130,9 @@ class PostListFragment : Fragment() {
                         // Start the CAB if not already active.
                         if (mActionMode == null) {
                             mActionMode =
-                                (activity as MainActivity).startSupportActionMode(actionModeCallback)
+                                (activity as AppCompatActivity).startSupportActionMode(
+                                    actionModeCallback
+                                )
                         }
                         // Update the title with the number of selected items.
                         mActionMode?.title =

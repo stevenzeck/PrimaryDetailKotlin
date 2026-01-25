@@ -80,8 +80,9 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "ext-junit" }
 expresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "expresso-core" }
+expresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "expresso-core" }
+navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core" }
 androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidx-test-core" }
@@ -109,7 +110,10 @@ unit-test = [
     "arch-core-testing",
     "androidx-test-core",
     "ext-junit",
-    "hilt-android-testing"
+    "hilt-android-testing",
+    "expresso-core",
+    "expresso-contrib",
+    "navigation-testing"
 ]
 
 [plugins]
