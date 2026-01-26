@@ -41,9 +41,12 @@ class PostListAdapterTest {
     fun setup() {
         mockkStatic(Navigation::class)
         recyclerView = RecyclerView(ApplicationProvider.getApplicationContext())
-        recyclerView.layoutManager = LinearLayoutManager(ApplicationProvider.getApplicationContext())
-        recyclerView.measure(View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
-                           View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY))
+        recyclerView.layoutManager =
+            LinearLayoutManager(ApplicationProvider.getApplicationContext())
+        recyclerView.measure(
+            View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY)
+        )
         recyclerView.layout(0, 0, 1000, 1000)
     }
 
@@ -56,11 +59,12 @@ class PostListAdapterTest {
     fun bind_setsTitleAndBoldness_unread() {
         val adapter = PostListAdapter {}
         recyclerView.adapter = adapter
-        
+
         val post = Post(id = 1, userId = 1, title = "Title", body = "Body", read = false)
         submitAndIdle(adapter, listOf(post))
 
-        val viewHolder = recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
+        val viewHolder =
+            recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
         adapter.onBindViewHolder(viewHolder, 0)
 
         val titleView = viewHolder.itemView.findViewById<TextView>(R.id.postTitle)
@@ -73,11 +77,12 @@ class PostListAdapterTest {
     fun bind_setsTitleAndNormal_read() {
         val adapter = PostListAdapter {}
         recyclerView.adapter = adapter
-        
+
         val post = Post(id = 1, userId = 1, title = "Title", body = "Body", read = true)
         submitAndIdle(adapter, listOf(post))
 
-        val viewHolder = recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
+        val viewHolder =
+            recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
         adapter.onBindViewHolder(viewHolder, 0)
 
         val titleView = viewHolder.itemView.findViewById<TextView>(R.id.postTitle)
@@ -96,7 +101,8 @@ class PostListAdapterTest {
         val post = Post(id = 1, userId = 1, title = "Title", body = "Body")
         submitAndIdle(adapter, listOf(post))
 
-        val viewHolder = recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
+        val viewHolder =
+            recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
         adapter.onBindViewHolder(viewHolder, 0)
 
         assertTrue(viewHolder.itemView.isActivated)
@@ -111,7 +117,8 @@ class PostListAdapterTest {
         val post = Post(id = 1, userId = 1, title = "Title", body = "Body", read = false)
         submitAndIdle(adapter, listOf(post))
 
-        val viewHolder = recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
+        val viewHolder =
+            recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
         adapter.onBindViewHolder(viewHolder, 0)
 
         val mockNavController = mockk<NavController>(relaxed = true)
@@ -138,17 +145,20 @@ class PostListAdapterTest {
         }
         root.addView(detailContainer)
         root.addView(recyclerView)
-        
+
         recyclerView.adapter = adapter
 
         val post = Post(id = 1, userId = 1, title = "Title", body = "Body")
         submitAndIdle(adapter, listOf(post))
 
-        root.measure(View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
-                    View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY))
+        root.measure(
+            View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY)
+        )
         root.layout(0, 0, 1000, 1000)
 
-        val viewHolder = recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
+        val viewHolder =
+            recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
         adapter.onBindViewHolder(viewHolder, 0)
 
         val mockNavController = mockk<NavController>(relaxed = true)
@@ -173,11 +183,12 @@ class PostListAdapterTest {
     fun getItemDetails_returnsCorrectKeyAndPosition() {
         val adapter = PostListAdapter {}
         recyclerView.adapter = adapter
-        
+
         val post = Post(id = 123L, userId = 1, title = "T", body = "B")
         submitAndIdle(adapter, listOf(post))
 
-        val viewHolder = recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
+        val viewHolder =
+            recyclerView.findViewHolderForAdapterPosition(0) as PostListAdapter.ViewHolder
         adapter.onBindViewHolder(viewHolder, 0)
 
         val details = viewHolder.getItemDetails()
@@ -190,8 +201,10 @@ class PostListAdapterTest {
         adapter.submitList(list) { latch.countDown() }
         latch.await(2, TimeUnit.SECONDS)
         ShadowLooper.idleMainLooper()
-        recyclerView.measure(View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
-                           View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY))
+        recyclerView.measure(
+            View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY)
+        )
         recyclerView.layout(0, 0, 1000, 1000)
     }
 }

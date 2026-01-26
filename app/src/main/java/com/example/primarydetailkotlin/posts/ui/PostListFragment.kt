@@ -146,7 +146,7 @@ class PostListFragment : Fragment() {
 
         // Collect the stream of posts from the ViewModel and submit to the adapter.
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            repeatOnLifecycle(state = Lifecycle.State.STARTED) {
                 viewModel.posts.collectLatest {
                     mAdapter.submitList(it)
                 }

@@ -33,7 +33,7 @@ class ApiServiceTest {
         assertEquals(10, post.userId)
         assertEquals("Test Title", post.title)
         assertEquals("Test Body", post.body)
-        assertEquals(false, post.read) // Default value for local DB, not in JSON
+        assertEquals(false, post.read)
     }
 
     @Test

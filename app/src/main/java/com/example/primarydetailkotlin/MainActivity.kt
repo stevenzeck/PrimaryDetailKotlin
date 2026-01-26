@@ -42,8 +42,11 @@ class MainActivity : AppCompatActivity() {
 
         // Configure the Action Bar to work with the NavController.
         // This ensures the title updates based on the destination and the Up button is displayed when appropriate.
-        val appBarConfiguration = AppBarConfiguration(mNavController.graph)
-        setupActionBarWithNavController(mNavController, appBarConfiguration)
+        val appBarConfiguration = AppBarConfiguration(navGraph = mNavController.graph)
+        setupActionBarWithNavController(
+            navController = mNavController,
+            configuration = appBarConfiguration
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {

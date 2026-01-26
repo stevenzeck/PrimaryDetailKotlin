@@ -35,12 +35,12 @@ class PostRepository @Inject constructor(
      *
      * @return Unit (This function is suspend and returns when the operation is complete).
      */
-    suspend fun getServerPosts() = withContext(Dispatchers.IO) {
+    suspend fun getServerPosts() = withContext(context = Dispatchers.IO) {
         Log.d("Server", "Checking posts in database")
         if (postsDao.getPostsCount() == 0) {
             Log.d("Server", "No posts in database, fetching remote")
             val posts = client.getAllPosts()
-            insertPosts(posts)
+            insertPosts(posts = posts)
         }
     }
 
@@ -49,7 +49,7 @@ class PostRepository @Inject constructor(
      *
      * @param posts The list of posts to insert.
      */
-    private suspend fun insertPosts(posts: List<Post>) = postsDao.insertPosts(posts)
+    private suspend fun insertPosts(posts: List<Post>) = postsDao.insertPosts(posts = posts)
 
     /**
      * Observes the list of posts from the database.
@@ -65,28 +65,28 @@ class PostRepository @Inject constructor(
      *
      * @param postIds The list of IDs of the posts to update.
      */
-    suspend fun markRead(postIds: List<Long>) = postsDao.markRead(postIds)
+    suspend fun markRead(postIds: List<Long>) = postsDao.markRead(postIds = postIds)
 
     /**
      * Marks a single post as read in the database.
      *
      * @param postId The ID of the post to update.
      */
-    suspend fun markRead(postId: Long) = postsDao.markRead(postId)
+    suspend fun markRead(postId: Long) = postsDao.markRead(postId = postId)
 
     /**
      * Deletes multiple posts from the database.
      *
      * @param postIds The list of IDs of the posts to delete.
      */
-    suspend fun deletePosts(postIds: List<Long>) = postsDao.deletePosts(postIds)
+    suspend fun deletePosts(postIds: List<Long>) = postsDao.deletePosts(postIds = postIds)
 
     /**
      * Deletes a single post from the database.
      *
      * @param postId The ID of the post to delete.
      */
-    suspend fun deletePost(postId: Long) = postsDao.deletePost(postId)
+    suspend fun deletePost(postId: Long) = postsDao.deletePost(postId = postId)
 
     /**
      * Retrieves a single post by its ID from the database.
@@ -94,5 +94,5 @@ class PostRepository @Inject constructor(
      * @param postId The ID of the post to retrieve.
      * @return The [Post] object.
      */
-    suspend fun postById(postId: Long) = postsDao.postById(postId)
+    suspend fun postById(postId: Long) = postsDao.postById(postId = postId)
 }

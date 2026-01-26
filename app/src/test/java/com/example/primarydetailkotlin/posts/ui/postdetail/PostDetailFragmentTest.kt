@@ -22,6 +22,8 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -98,5 +100,23 @@ class PostDetailFragmentTest {
         }
 
         coVerify { repository.deletePost(postId = 1L) }
+    }
+
+    @Test
+    fun onDestroyView_clearsBinding() {
+        launchFragmentInHiltContainer<PostDetailFragment> {
+            val fragment = this
+            val bindingField = PostDetailFragment::class.java.getDeclaredField("_binding")
+            bindingField.isAccessible = true
+
+            assertNotNull(
+                "Binding should be non-null after onCreateView",
+                bindingField.get(fragment)
+            )
+
+            fragment.onDestroyView()
+
+            assertNull("Binding should be nullified in onDestroyView", bindingField.get(fragment))
+        }
     }
 }

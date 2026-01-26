@@ -12,7 +12,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
@@ -25,7 +24,7 @@ class PostsDaoTest {
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context = context, klass = PostsDatabase::class.java)
-            .allowMainThreadQueries() // Allow main thread queries for testing
+            .allowMainThreadQueries()
             .build()
         dao = db.postsDao()
     }

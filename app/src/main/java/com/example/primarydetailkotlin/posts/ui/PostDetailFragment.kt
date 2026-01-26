@@ -53,7 +53,7 @@ class PostDetailFragment : Fragment() {
             if (it.containsKey(POST_ID)) {
                 lifecycleScope.launch {
                     // Fetch post asynchronously from the database.
-                    post = viewModel.postById(it.getLong(POST_ID))
+                    post = viewModel.postById(postId = it.getLong(POST_ID))
 
                     // Bind data to UI elements.
                     binding.titleTextView.text = post?.title
@@ -79,7 +79,7 @@ class PostDetailFragment : Fragment() {
                 when (menuItem.itemId) {
                     R.id.delete -> {
                         // Delete the current post and navigate back.
-                        post?.let { viewModel.deletePost(it.id) }
+                        post?.let { viewModel.deletePost(postId = it.id) }
                         findNavController().navigateUp()
                     }
 

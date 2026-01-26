@@ -40,7 +40,7 @@ class PostViewModel @Inject constructor(private val repository: PostRepository) 
      * @param postIds A list of IDs of posts to mark as read.
      */
     fun markRead(postIds: List<Long>) = viewModelScope.launch {
-        repository.markRead(postIds)
+        repository.markRead(postIds = postIds)
     }
 
     /**
@@ -49,7 +49,7 @@ class PostViewModel @Inject constructor(private val repository: PostRepository) 
      * @param postId The ID of the post to mark as read.
      */
     fun markRead(postId: Long) = viewModelScope.launch {
-        repository.markRead(postId)
+        repository.markRead(postId = postId)
     }
 
     /**
@@ -58,7 +58,7 @@ class PostViewModel @Inject constructor(private val repository: PostRepository) 
      * @param postIds A list of IDs of posts to delete.
      */
     fun deletePosts(postIds: List<Long>) = viewModelScope.launch {
-        repository.deletePosts(postIds)
+        repository.deletePosts(postIds = postIds)
     }
 
     /**
@@ -67,7 +67,7 @@ class PostViewModel @Inject constructor(private val repository: PostRepository) 
      * @param postId The ID of the post to delete.
      */
     fun deletePost(postId: Long) = viewModelScope.launch {
-        repository.deletePost(postId)
+        repository.deletePost(postId = postId)
     }
 
     /**
@@ -76,5 +76,5 @@ class PostViewModel @Inject constructor(private val repository: PostRepository) 
      * @param postId The unique identifier of the post.
      * @return The [com.example.primarydetailkotlin.posts.domain.model.Post] object corresponding to the ID.
      */
-    suspend fun postById(postId: Long) = repository.postById(postId)
+    suspend fun postById(postId: Long) = repository.postById(postId = postId)
 }

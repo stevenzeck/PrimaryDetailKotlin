@@ -1,5 +1,7 @@
 package com.example.primarydetailkotlin.posts.ui.postlist
 
+import android.view.MenuItem
+import android.view.Window
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.recyclerview.selection.SelectionTracker
@@ -27,6 +29,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -52,7 +55,7 @@ class PostListFragmentTest {
     @Test
     fun onViewCreated_callsServerPosts() {
         every { repository.getPostsFromDatabase() } returns flowOf(emptyList())
-        
+
         launchFragmentInHiltContainer<PostListFragment>()
         ShadowLooper.runUiThreadTasks()
 
@@ -77,12 +80,13 @@ class PostListFragmentTest {
         val post = Post(id = 1, userId = 1, title = "Test Post", body = "Body")
         every { repository.getPostsFromDatabase() } returns flowOf(listOf(post))
 
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+        val navController =
+            TestNavHostController(context = ApplicationProvider.getApplicationContext())
 
         launchFragmentInHiltContainer<PostListFragment> {
-            navController.setGraph(R.navigation.list)
-            navController.setCurrentDestination(R.id.postListFragment)
-            Navigation.setViewNavController(requireView(), navController)
+            navController.setGraph(graphResId = R.navigation.list)
+            navController.setCurrentDestination(destId = R.id.postListFragment)
+            Navigation.setViewNavController(view = requireView(), controller = navController)
         }
 
         ShadowLooper.runUiThreadTasks()
@@ -102,12 +106,13 @@ class PostListFragmentTest {
     @Test
     fun clickSettings_navigatesToSettings() {
         every { repository.getPostsFromDatabase() } returns flowOf(emptyList())
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+        val navController =
+            TestNavHostController(context = ApplicationProvider.getApplicationContext())
 
         launchFragmentInHiltContainer<PostListFragment> {
-            navController.setGraph(R.navigation.list)
-            navController.setCurrentDestination(R.id.postListFragment)
-            Navigation.setViewNavController(requireView(), navController)
+            navController.setGraph(graphResId = R.navigation.list)
+            navController.setCurrentDestination(destId = R.id.postListFragment)
+            Navigation.setViewNavController(view = requireView(), controller = navController)
         }
 
         openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
@@ -117,28 +122,43 @@ class PostListFragmentTest {
     }
 
     @Test
+    fun onMenuItemSelected_unhandledItem_returnsFalse() {
+        every { repository.getPostsFromDatabase() } returns flowOf(emptyList())
+        launchFragmentInHiltContainer<PostListFragment> {
+            val mockMenuItem = mockk<MenuItem>(relaxed = true)
+            every { mockMenuItem.itemId } returns 999
+
+            val handled =
+                requireActivity().onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, mockMenuItem)
+
+            assertFalse("Should return false for unhandled menu items", handled)
+        }
+    }
+
+    @Test
     fun selectionMode_deleteAction() {
-        performSelectionAction(R.id.delete)
-        coVerify { repository.deletePosts(listOf(1L)) }
+        performSelectionAction(actionId = R.id.delete)
+        coVerify { repository.deletePosts(postIds = listOf(1L)) }
     }
 
     @Test
     fun selectionMode_markReadAction() {
-        performSelectionAction(R.id.markRead)
-        coVerify { repository.markRead(listOf(1L)) }
+        performSelectionAction(actionId = R.id.markRead)
+        coVerify { repository.markRead(postIds = listOf(1L)) }
     }
 
     private fun performSelectionAction(actionId: Int) {
         val post = Post(id = 1, userId = 1, title = "Test Post", body = "Body")
         every { repository.getPostsFromDatabase() } returns flowOf(listOf(post))
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+        val navController =
+            TestNavHostController(context = ApplicationProvider.getApplicationContext())
         var fragment: PostListFragment? = null
 
         launchFragmentInHiltContainer<PostListFragment> {
             fragment = this
-            navController.setGraph(R.navigation.list)
-            navController.setCurrentDestination(R.id.postListFragment)
-            Navigation.setViewNavController(requireView(), navController)
+            navController.setGraph(graphResId = R.navigation.list)
+            navController.setCurrentDestination(destId = R.id.postListFragment)
+            Navigation.setViewNavController(view = requireView(), controller = navController)
         }
         ShadowLooper.runUiThreadTasks()
 
