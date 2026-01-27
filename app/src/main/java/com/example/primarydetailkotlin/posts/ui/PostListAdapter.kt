@@ -101,6 +101,12 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
 
             // Handle item clicks
             binding.root.setOnClickListener {
+                // If we are in selection mode, let the tracker handle it.
+                // We shouldn't navigate when items are being selected.
+                if (mTracker?.hasSelection() == true) {
+                    return@setOnClickListener
+                }
+
                 // Update selection state for single-select highlighting
                 notifyItemChanged(mSelected)
                 mSelected = absoluteAdapterPosition
