@@ -1,7 +1,7 @@
 [versions]
 # Build Tools & Plugins
 agp = "9.0.0"
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 ksp = "2.3.4"
 
 # AndroidX & UI
@@ -24,7 +24,7 @@ room = "2.8.4"
 coroutines = "1.10.2"
 
 # Dependency Injection
-hilt = "2.59"
+hilt = "2.59.1"
 
 # Testing
 junit = "4.13.2"
@@ -34,7 +34,7 @@ mockk = "1.14.9"
 robolectric = "4.16.1"
 arch-core = "2.2.0"
 androidx-test-core = "1.7.0"
-kover = "0.9.4"
+kover = "0.9.5"
 
 [libraries]
 # Kotlin
