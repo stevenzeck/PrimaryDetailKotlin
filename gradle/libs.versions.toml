@@ -34,7 +34,7 @@ mockk = "1.14.9"
 robolectric = "4.16.1"
 arch-core = "2.2.0"
 androidx-test-core = "1.7.0"
-kover = "0.9.5"
+kover = "0.9.7"
 
 [libraries]
 # Kotlin
