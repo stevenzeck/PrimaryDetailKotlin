@@ -1,6 +1,6 @@
 [versions]
 # Build Tools & Plugins
-agp = "9.0.1"
+agp = "9.1.0"
 kotlin = "2.3.10"
 ksp = "2.3.4"
 
@@ -24,7 +24,7 @@ room = "2.8.4"
 coroutines = "1.10.2"
 
 # Dependency Injection
-hilt = "2.59.1"
+hilt = "2.59.2"
 
 # Testing
 junit = "4.13.2"
