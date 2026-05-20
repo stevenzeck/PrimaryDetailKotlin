@@ -1,5 +1,6 @@
 package com.example.primarydetailkotlin.posts.ui.postdetail
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
@@ -13,7 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.primarydetailkotlin.R
 import com.example.primarydetailkotlin.posts.domain.model.Post
 import com.example.primarydetailkotlin.posts.ui.PostDetailFragment
-import com.example.primarydetailkotlin.posts.ui.PostListAdapter
+import com.example.primarydetailkotlin.posts.ui.PostListAdapter.Companion.POST_ID
 import com.example.primarydetailkotlin.posts.ui.PostRepository
 import com.example.primarydetailkotlin.util.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.BindValue
@@ -51,7 +52,9 @@ class PostDetailFragmentTest {
         val post = Post(id = 1, userId = 1, title = "Detail Title", body = "Detail Body")
         coEvery { repository.postById(postId = 1L) } returns post
 
-        val args = bundleOf(PostListAdapter.POST_ID to 1L)
+        val args = Bundle().apply {
+            putLong(POST_ID, 1L)
+        }
         launchFragmentInHiltContainer<PostDetailFragment>(fragmentArgs = args)
 
         ShadowLooper.runUiThreadTasks()
@@ -76,7 +79,9 @@ class PostDetailFragmentTest {
         val post = Post(id = 1, userId = 1, title = "Detail Title", body = "Detail Body")
         coEvery { repository.postById(postId = 1L) } returns post
 
-        val args = bundleOf(PostListAdapter.POST_ID to 1L)
+        val args = Bundle().apply {
+            putLong(POST_ID, 1L)
+        }
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
 
         launchFragmentInHiltContainer<PostDetailFragment>(
@@ -94,7 +99,7 @@ class PostDetailFragmentTest {
             Espresso.onView(ViewMatchers.withId(R.id.delete))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
             Espresso.onView(ViewMatchers.withId(R.id.delete)).perform(ViewActions.click())
-        } catch (e: NoMatchingViewException) {
+        } catch (_: NoMatchingViewException) {
             Espresso.openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
             Espresso.onView(ViewMatchers.withText(R.string.delete)).perform(ViewActions.click())
         }

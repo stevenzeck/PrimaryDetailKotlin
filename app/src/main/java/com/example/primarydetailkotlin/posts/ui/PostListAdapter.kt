@@ -1,10 +1,10 @@
 package com.example.primarydetailkotlin.posts.ui
 
 import android.graphics.Typeface
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
@@ -115,7 +115,9 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
                 // Invoke callback to mark as read
                 markRead(post.id)
 
-                val bundle = bundleOf(POST_ID to post.id)
+                val bundle = Bundle().apply {
+                    putLong(POST_ID, post.id)
+                }
 
                 // Check if we are in a two-pane layout (e.g., tablet) by looking for the detail container.
                 val itemDetailFragmentContainer: View? =
