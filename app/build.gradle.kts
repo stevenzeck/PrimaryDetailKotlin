@@ -60,7 +60,7 @@ tasks.withType<Test> {
 
 kotlin {
     compilerOptions {
-        languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_3
+        languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_4
         allWarningsAsErrors = true
     }
 }
@@ -68,6 +68,7 @@ kotlin {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.kotlin.stdlib)
+    annotationProcessor(libs.kotlin.metadata.jvm)
 
     // UI & Core Libraries
     implementation(libs.bundles.ui)

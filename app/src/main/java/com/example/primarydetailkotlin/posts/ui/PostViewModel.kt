@@ -3,6 +3,8 @@ package com.example.primarydetailkotlin.posts.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,13 +26,23 @@ class PostViewModel @Inject constructor(private val repository: PostRepository) 
     val posts = repository.getPostsFromDatabase()
 
     /**
+     * A StateFlow indicating whether a server fetch is currently in progress.
+     */
+    val isLoading: StateFlow<Boolean> field = MutableStateFlow(false)
+
+    /**
      * Triggers a network request to fetch posts from the server.
      *
      * This method launches a coroutine in the [viewModelScope] to perform the network operation asynchronously.
      */
     fun serverPosts() {
         viewModelScope.launch {
-            repository.getServerPosts()
+            isLoading.value = true
+            try {
+                repository.getServerPosts()
+            } finally {
+                isLoading.value = false
+            }
         }
     }
 

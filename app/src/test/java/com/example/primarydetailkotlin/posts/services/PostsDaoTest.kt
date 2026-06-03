@@ -9,16 +9,26 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
+import kotlin.uuid.Uuid
 
 @RunWith(AndroidJUnit4::class)
 class PostsDaoTest {
 
     private lateinit var db: PostsDatabase
     private lateinit var dao: PostsDao
+
+    private fun generateMockPost(
+        title: String,
+        body: String,
+        id: Long = Uuid.random().hashCode().toLong(),
+        read: Boolean = false
+    ): Post {
+        return Post(id = id, userId = 1, title = title, body = body, read = read)
+    }
 
     @Before
     fun createDb() {
@@ -30,14 +40,13 @@ class PostsDaoTest {
     }
 
     @After
-    @Throws(IOException::class)
     fun closeDb() {
         db.close()
     }
 
     @Test
     fun insertAndGetPosts() = runTest {
-        val post = Post(id = 1, userId = 1, title = "Title", body = "Body")
+        val post = generateMockPost(title = "Title", body = "Body")
         dao.insertPosts(posts = listOf(post))
 
         val posts = dao.getAllPosts().first()
@@ -48,8 +57,8 @@ class PostsDaoTest {
     @Test
     fun getPostsCount_returnsCorrectCount() = runTest {
         val posts = listOf(
-            Post(id = 1, userId = 1, title = "T1", body = "B1"),
-            Post(id = 2, userId = 1, title = "T2", body = "B2")
+            generateMockPost(title = "T1", body = "B1"),
+            generateMockPost(title = "T2", body = "B2")
         )
         dao.insertPosts(posts)
 
@@ -59,37 +68,35 @@ class PostsDaoTest {
 
     @Test
     fun markRead_updatesReadStatus() = runTest {
-        val post = Post(id = 1, userId = 1, title = "T", body = "B", read = false)
+        val post = generateMockPost(title = "T", body = "B", read = false)
         dao.insertPosts(posts = listOf(post))
 
-        dao.markRead(postId = 1L)
+        dao.markRead(postId = post.id)
 
-        val retrievedPost = dao.postById(postId = 1L)
+        val retrievedPost = dao.postById(postId = post.id)
         assertEquals(true, retrievedPost.read)
     }
 
     @Test
     fun markRead_list_updatesReadStatus() = runTest {
-        val posts = listOf(
-            Post(id = 1, userId = 1, title = "T1", body = "B1", read = false),
-            Post(id = 2, userId = 1, title = "T2", body = "B2", read = false)
-        )
-        dao.insertPosts(posts = posts)
+        val p1 = generateMockPost(title = "T1", body = "B1", read = false)
+        val p2 = generateMockPost(title = "T2", body = "B2", read = false)
+        dao.insertPosts(posts = listOf(p1, p2))
 
-        dao.markRead(postIds = listOf(1L, 2L))
+        dao.markRead(postIds = listOf(p1.id, p2.id))
 
-        val p1 = dao.postById(postId = 1L)
-        val p2 = dao.postById(postId = 2L)
-        assertEquals(true, p1.read)
-        assertEquals(true, p2.read)
+        val retrievedP1 = dao.postById(postId = p1.id)
+        val retrievedP2 = dao.postById(postId = p2.id)
+        assertEquals(true, retrievedP1.read)
+        assertEquals(true, retrievedP2.read)
     }
 
     @Test
     fun deletePost_removesPost() = runTest {
-        val post = Post(id = 1, userId = 1, title = "T", body = "B")
+        val post = generateMockPost(title = "T", body = "B")
         dao.insertPosts(posts = listOf(post))
 
-        dao.deletePost(postId = 1L)
+        dao.deletePost(postId = post.id)
 
         val count = dao.getPostsCount()
         assertEquals(0, count)
@@ -97,15 +104,26 @@ class PostsDaoTest {
 
     @Test
     fun deletePosts_removesPosts() = runTest {
-        val posts = listOf(
-            Post(id = 1, userId = 1, title = "T1", body = "B1"),
-            Post(id = 2, userId = 1, title = "T2", body = "B2")
-        )
-        dao.insertPosts(posts)
+        val p1 = generateMockPost(title = "T1", body = "B1")
+        val p2 = generateMockPost(title = "T2", body = "B2")
+        dao.insertPosts(listOf(p1, p2))
 
-        dao.deletePosts(postIds = listOf(1L, 2L))
+        dao.deletePosts(postIds = listOf(p1.id, p2.id))
 
         val count = dao.getPostsCount()
         assertEquals(0, count)
+    }
+
+    @Test
+    fun getAllPosts_returnsPostsSortedByIdDescending() = runTest {
+        val posts = listOf(
+            generateMockPost(title = "T10", body = "B10", id = 10L),
+            generateMockPost(title = "T30", body = "B30", id = 30L),
+            generateMockPost(title = "T20", body = "B20", id = 20L)
+        )
+        dao.insertPosts(posts)
+
+        val retrievedPosts = dao.getAllPosts().first()
+        assertTrue(retrievedPosts.isSortedByDescending { it.id })
     }
 }
