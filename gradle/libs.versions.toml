@@ -24,7 +24,7 @@ room = "2.8.4"
 coroutines = "1.11.0"
 
 # Dependency Injection
-hilt = "2.59.2"
+hilt = "2.60"
 
 # Testing
 junit = "4.13.2"
