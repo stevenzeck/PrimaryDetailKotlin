@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kover)
+    alias(libs.plugins.androidx.room3)
 }
 
 android {
@@ -65,6 +66,10 @@ kotlin {
     }
 }
 
+room3 {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.kotlin.stdlib)
@@ -79,8 +84,8 @@ dependencies {
     ksp(libs.lifecycle.compiler)
 
     // Database & Network
-    implementation(libs.bundles.room)
-    ksp(libs.room.compiler)
+    implementation(libs.androidx.room3)
+    ksp(libs.androidx.room3.compiler)
     implementation(libs.bundles.retrofit)
     implementation(libs.kotlin.serialization.json)
 

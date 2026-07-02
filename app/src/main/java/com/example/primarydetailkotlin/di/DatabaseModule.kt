@@ -1,7 +1,7 @@
 package com.example.primarydetailkotlin.di
 
 import android.content.Context
-import androidx.room.Room
+import androidx.room3.Room
 import com.example.primarydetailkotlin.posts.services.PostsDao
 import com.example.primarydetailkotlin.posts.services.PostsDatabase
 import com.example.primarydetailkotlin.util.DATABASE_NAME
@@ -33,7 +33,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext appContext: Context): PostsDatabase {
-        return Room.databaseBuilder(appContext, PostsDatabase::class.java, DATABASE_NAME).build()
+        return Room.databaseBuilder<PostsDatabase>(context = appContext, name = DATABASE_NAME)
+            .build()
     }
 
     /**

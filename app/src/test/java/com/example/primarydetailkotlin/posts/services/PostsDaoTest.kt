@@ -1,7 +1,7 @@
 package com.example.primarydetailkotlin.posts.services
 
 import android.content.Context
-import androidx.room.Room
+import androidx.room3.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.primarydetailkotlin.posts.domain.model.Post
