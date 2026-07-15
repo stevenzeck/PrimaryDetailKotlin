@@ -23,7 +23,7 @@ interface PostsDao {
      *
      * @return A [Flow] emitting a list of [Post] objects.
      */
-    @Query("SELECT * FROM " + Post.TABLE_NAME + " ORDER BY " + Post.COLUMN_ID + " desc")
+    @Query("SELECT * FROM ${Post.TABLE_NAME} ORDER BY ${Post.COLUMN_ID} DESC")
     fun getAllPosts(): Flow<List<Post>>
 
     /**
@@ -31,7 +31,7 @@ interface PostsDao {
      *
      * @return The count of posts.
      */
-    @Query("SELECT COUNT(*) FROM " + Post.TABLE_NAME)
+    @Query("SELECT COUNT(*) FROM ${Post.TABLE_NAME}")
     fun getPostsCount(): Int
 
     /**
@@ -51,7 +51,7 @@ interface PostsDao {
      *
      * @param postIds The list of IDs of the posts to be marked as read.
      */
-    @Query("UPDATE " + Post.TABLE_NAME + " SET " + Post.COLUMN_READ + " = 1 WHERE " + Post.COLUMN_ID + " IN (:postIds)")
+    @Query("UPDATE ${Post.TABLE_NAME} SET ${Post.COLUMN_READ} = 1 WHERE ${Post.COLUMN_ID} IN (:postIds)")
     suspend fun markRead(postIds: List<Long>)
 
     /**
@@ -59,7 +59,7 @@ interface PostsDao {
      *
      * @param postId The ID of the post to be marked as read.
      */
-    @Query("UPDATE " + Post.TABLE_NAME + " SET " + Post.COLUMN_READ + " = 1 WHERE " + Post.COLUMN_ID + " = :postId")
+    @Query("UPDATE ${Post.TABLE_NAME} SET ${Post.COLUMN_READ} = 1 WHERE ${Post.COLUMN_ID} = :postId")
     suspend fun markRead(postId: Long)
 
     /**
@@ -67,7 +67,7 @@ interface PostsDao {
      *
      * @param postIds The list of IDs of the posts to delete.
      */
-    @Query("DELETE FROM " + Post.TABLE_NAME + " WHERE " + Post.COLUMN_ID + " IN (:postIds)")
+    @Query("DELETE FROM ${Post.TABLE_NAME} WHERE ${Post.COLUMN_ID} IN (:postIds)")
     suspend fun deletePosts(postIds: List<Long>)
 
     /**
@@ -75,7 +75,7 @@ interface PostsDao {
      *
      * @param postId The ID of the post to delete.
      */
-    @Query("DELETE FROM " + Post.TABLE_NAME + " WHERE " + Post.COLUMN_ID + " = :postId")
+    @Query("DELETE FROM ${Post.TABLE_NAME} WHERE ${Post.COLUMN_ID} = :postId")
     suspend fun deletePost(postId: Long)
 
     /**
@@ -84,6 +84,6 @@ interface PostsDao {
      * @param postId The ID of the post to retrieve.
      * @return The [Post] object, or null if not found (though return type implies non-nullable, Room throws or returns null depending on config).
      */
-    @Query("SELECT * FROM " + Post.TABLE_NAME + " WHERE " + Post.COLUMN_ID + " = :postId")
+    @Query("SELECT * FROM ${Post.TABLE_NAME} WHERE ${Post.COLUMN_ID} = :postId")
     suspend fun postById(postId: Long): Post
 }
