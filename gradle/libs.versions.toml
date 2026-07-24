@@ -1,6 +1,6 @@
 [versions]
 # Build Tools & Plugins
-agp = "9.3.0"
+agp = "9.3.1"
 kotlin = "2.4.10"
 ksp = "2.3.9"
 
@@ -34,7 +34,7 @@ mockk = "1.14.11"
 robolectric = "4.16.1"
 arch-core = "2.2.0"
 androidx-test-core = "1.7.0"
-kover = "0.9.8"
+kover = "0.9.9"
 
 [libraries]
 # Kotlin
