@@ -1,7 +1,7 @@
 [versions]
 # Build Tools & Plugins
-agp = "9.3.1"
-kotlin = "2.4.10"
+agp = "9.4.0"
+kotlin = "2.4.20"
 ksp = "2.3.9"
 
 # AndroidX & UI
@@ -9,7 +9,7 @@ androidx-core = "1.19.0"
 appcompat = "1.8.0"
 constraintlayout = "2.2.2"
 material = "1.14.0"
-navigation = "2.9.8"
+navigation = "2.10.1"
 preference = "1.2.1"
 recyclerview = "1.4.0"
 recyclerview-selection = "1.2.0"
@@ -18,9 +18,9 @@ lifecycle = "2.11.0"
 
 # Data & Networking
 retrofit = "3.0.0"
-logging-interceptor = "5.4.0"
+logging-interceptor = "5.5.0"
 kotlin-serialization = "1.11.0"
-room = "3.0.1"
+room = "3.0.3"
 coroutines = "1.11.0"
 
 # Dependency Injection
